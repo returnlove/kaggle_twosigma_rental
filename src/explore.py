@@ -50,6 +50,8 @@ sns.distplot(price_filtered.values)
 plt.xlabel("price")
 plt.show()
 
+
+
 #hist? >> value vs instances
 ##plt.hist(train_df["price"])
 ##plt.show()
