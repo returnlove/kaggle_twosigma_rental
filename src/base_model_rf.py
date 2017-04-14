@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 train_df = pd.read_json("../data/train.json/train.json")
+test_df = pd.read_json("../data/test.json/test.json")
+
 
 #create features
 train_df["num_photos"] = train_df["photos"].apply(len)
@@ -30,3 +32,20 @@ y_pred = rf_model.predict(X_test)
 
 print(accuracy_score(y_test, y_pred))
 print("processing done")
+
+
+
+test_df["num_photos"] = test_df["photos"].apply(len)
+test_df["num_features"] = test_df["features"].apply(len)
+test_df["num_desc_words"] = test_df["description"].apply(lambda x: len(x.split(" ")))
+test_df["created"] = pd.to_datetime(test_df["created"])
+test_df["year"] = test_df["created"].dt.year
+test_df["month"] = test_df["created"].dt.month
+test_df["day"] = test_df["created"].dt.day
+
+X_test = test_df[numeric_features]
+y_pred = rf_model.predict_proba(X_test)
+
+
+
+
