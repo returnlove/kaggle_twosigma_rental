@@ -34,7 +34,6 @@ print(accuracy_score(y_test, y_pred))
 print("processing done")
 
 
-
 test_df["num_photos"] = test_df["photos"].apply(len)
 test_df["num_features"] = test_df["features"].apply(len)
 test_df["num_desc_words"] = test_df["description"].apply(lambda x: len(x.split(" ")))
@@ -45,7 +44,15 @@ test_df["day"] = test_df["created"].dt.day
 
 X_test = test_df[numeric_features]
 y_pred = rf_model.predict_proba(X_test)
+print("prediction on the test data done")
 
+y_pred_df = pd.DataFrame(y_pred)
+y_pred_df.columns = rf_model.classes_
+y_pred_df["listing_id"] = test_df["listing_id"]
 
+new_cols = ["listing_id", "high", "low", "medium"]
+y_pred_new = y_pred_df[new_cols]
+y_pred_new.to_csv("submission.csv", index = False)
+print("submission.csv is ready")
 
 
