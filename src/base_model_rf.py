@@ -48,7 +48,12 @@ print("prediction on the test data done")
 
 y_pred_df = pd.DataFrame(y_pred)
 y_pred_df.columns = rf_model.classes_
-y_pred_df["listing_id"] = test_df["listing_id"]
+# copying test dataset
+test_df_new = test_df
+#reseting index in the test dataset as the indexes are not ordered
+test_df_new = test_df_new.reset_index(drop=True)
+
+y_pred_df["listing_id"] = test_df_new["listing_id"]
 
 new_cols = ["listing_id", "high", "low", "medium"]
 y_pred_new = y_pred_df[new_cols]
